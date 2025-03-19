@@ -1,9 +1,9 @@
-import unicodedata
 import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 import time
-import re  # Import regex for removing numbers
+import re
+import unicodedata  # For Unicode normalization
 
 # Define a function to fix characters in the text
 def fix_text(text):
@@ -20,12 +20,11 @@ def fix_text(text):
     for old, new in replacements.items():
         text = text.replace(old, new)
     
-    # Normalize text to remove any Unicode anomalies
+    # Normalize Unicode characters
     text = unicodedata.normalize("NFKC", text)
-
-    # Remove BOM or other invisible characters
+    # Remove BOM and extra whitespace
     text = text.replace("\ufeff", "").strip()
-
+    
     return text
 
 base_url = "https://digitaldante.columbia.edu"
@@ -40,7 +39,7 @@ total_cantos = sum(section["cantos"] for section in sections)  # Total = 100
 
 # Initialize progress bar with percentage
 progress_bar = tqdm(total=total_cantos, desc="Scraping", unit="canto", 
-                   bar_format="{l_bar}{bar}| {n_fmt}/{total_fmt} [{percentage:3.0f}%]")
+                    bar_format="{l_bar}{bar}| {n_fmt}/{total_fmt} [{percentage:3.0f}%]")
 
 for section in sections:
     section_name = section["name"]
@@ -62,16 +61,16 @@ for section in sections:
             if text_div:
                 italian_lines = []
                 for p in text_div.find_all("p"):
-                    # Extract full text from <p>, which includes both the number and the verse
-                    full_text = p.get_text(" ", strip=True)  # Extract text with spaces
-
-                    # Remove line numbers at the start of each line (they are usually 1-3 digits)
-                    cleaned_text = re.sub(r'^\d+\s*', '', full_text)
-
-                    # Fix characters
-                    cleaned_text = fix_text(cleaned_text)
-
-                    italian_lines.append(cleaned_text)
+                    # Get the paragraph text, using newline as separator (in case of <br> tags)
+                    p_text = p.get_text("\n", strip=True)
+                    # Split into individual lines
+                    lines = p_text.split("\n")
+                    for line in lines:
+                        # Remove leading line numbers (1 or more digits plus any whitespace)
+                        cleaned_line = re.sub(r'^\d+\s*', '', line)
+                        cleaned_line = fix_text(cleaned_line)
+                        if cleaned_line:
+                            italian_lines.append(cleaned_line)
 
                 canto_header = f"{section_name.upper()} CANTO {canto}"
                 canto_header = fix_text(canto_header)
@@ -91,7 +90,6 @@ progress_bar.close()
 
 # Save to file with fixed text
 with open("divina_commedia.txt", "w", encoding="utf-8") as f:
-    fixed_text = fix_text("\n\n".join(all_text))
-    f.write(fixed_text)
+    f.write("\n\n".join(all_text))
 
 print("\nScraping complete! Check divina_commedia.txt")
