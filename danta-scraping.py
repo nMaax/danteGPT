@@ -1,7 +1,32 @@
+import unicodedata
 import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 import time
+import re  # Import regex for removing numbers
+
+# Define a function to fix characters in the text
+def fix_text(text):
+    replacements = {
+        'Ä': 'A', 'ä': 'a',
+        'Ë': 'E', 'ë': 'e',
+        'Ï': 'I', 'ï': 'i',
+        'Ö': 'O', 'ö': 'o',
+        'Ü': 'U', 'ü': 'u',
+        '‘': "'", '’': "'",
+        '“': '"', '”': '"',
+        '«': '<<', '»': '>>'
+    }
+    for old, new in replacements.items():
+        text = text.replace(old, new)
+    
+    # Normalize text to remove any Unicode anomalies
+    text = unicodedata.normalize("NFKC", text)
+
+    # Remove BOM or other invisible characters
+    text = text.replace("\ufeff", "").strip()
+
+    return text
 
 base_url = "https://digitaldante.columbia.edu"
 sections = [
@@ -35,16 +60,21 @@ for section in sections:
             text_div = soup.find("div", class_="translation-entry")
             
             if text_div:
-                # Extract Italian lines without numbers
                 italian_lines = []
                 for p in text_div.find_all("p"):
-                    # Process each verse line
-                    for span in p.find_all('span', class_='ln'):
-                        # Get text after line number span
-                        verse = span.next_sibling.strip()
-                        italian_lines.append(verse)
+                    # Extract full text from <p>, which includes both the number and the verse
+                    full_text = p.get_text(" ", strip=True)  # Extract text with spaces
+
+                    # Remove line numbers at the start of each line (they are usually 1-3 digits)
+                    cleaned_text = re.sub(r'^\d+\s*', '', full_text)
+
+                    # Fix characters
+                    cleaned_text = fix_text(cleaned_text)
+
+                    italian_lines.append(cleaned_text)
 
                 canto_header = f"{section_name.upper()} CANTO {canto}"
+                canto_header = fix_text(canto_header)
                 canto_text = "\n".join(italian_lines)
                 all_text.append(f"{canto_header}\n{canto_text}")
             else:
@@ -59,8 +89,9 @@ for section in sections:
 
 progress_bar.close()
 
-# Save to file
+# Save to file with fixed text
 with open("divina_commedia.txt", "w", encoding="utf-8") as f:
-    f.write("\n\n".join(all_text))
+    fixed_text = fix_text("\n\n".join(all_text))
+    f.write(fixed_text)
 
 print("\nScraping complete! Check divina_commedia.txt")
