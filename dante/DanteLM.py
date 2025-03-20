@@ -3,14 +3,14 @@ import torch.nn as nn
 from torch.nn import functional as F
 
 class Head(nn.Module):
-  def __init__(self, feat_in, head_size, context_window):
+  def __init__(self, tokens_in, head_size, context_window):
     super().__init__()
-    self.feat_in = feat_in
+    self.feat_in = tokens_in
     self.head_size = head_size
     self.context_window = context_window
-    self.key = nn.Linear(feat_in, head_size, bias=False)
-    self.query = nn.Linear(feat_in, head_size, bias=False)
-    self.value = nn.Linear(feat_in, head_size, bias=False)
+    self.key = nn.Linear(tokens_in, head_size, bias=False)
+    self.query = nn.Linear(tokens_in, head_size, bias=False)
+    self.value = nn.Linear(tokens_in, head_size, bias=False)
     self.register_buffer('tril', torch.tril(torch.ones(context_window, context_window)))
 
   def forward(self, X):
@@ -21,11 +21,11 @@ class Head(nn.Module):
     Q = self.query(X)
     V = self.value(X)
 
-    sa = K @ Q.transpose(-1, -2) * self.head_size**-0.5
-    sa = sa.masked_fill(torch.tril(torch.ones(T, T, device=X.device) == 0), float('-inf'))
-    sa = F.softmax(sa, dim=-1)
+    self_attention = K @ Q.transpose(-1, -2) * self.head_size**-0.5
+    self_attention = self_attention.masked_fill(torch.tril(torch.ones(T, T, device=X.device) == 0), float('-inf'))
+    self_attention = F.softmax(self_attention, dim=-1)
 
-    return sa @ V
+    return self_attention @ V
 
 class MultiHead(nn.Module):
   def __init__(self, num_heads, latent_space_dim, context_window):
@@ -34,7 +34,7 @@ class MultiHead(nn.Module):
     self.num_heads = num_heads
     self.context_window = context_window
     self.heads = nn.ModuleList([
-        Head(feat_in=latent_space_dim, head_size=head_size, context_window=context_window) for _ in range(num_heads)
+        Head(tokens_in=latent_space_dim, head_size=head_size, context_window=context_window) for _ in range(num_heads)
         ])
     self.proj = nn.Linear(latent_space_dim, latent_space_dim)
 
