@@ -1,7 +1,7 @@
 # danteGPT
 
-A simple character level GPT to produce Dante Alighieri's Divina Commedia text like. Inspired by Karpathy's [nanoGPT](https://github.com/karpathy/nanoGPT).
+A simple GPT to produce Dante Alighieri's Divina Commedia text like. Inspired by Karpathy's [minGPT](https://github.com/karpathy/minGPT).
 
-The transformer-base model is provided at the end of the notebook, the start only provides a naive transformer-free implementation as a baseline to compare results.
+this repo provides both the transformer based implementation, both a naive FFNN transformer-free model as a baseline to compare results.
 
-Code to scapre the original italian text is provided.
+Code to scrape the original italian text is provided.
