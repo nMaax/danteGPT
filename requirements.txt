@@ -1,0 +1,6 @@
+torch
+matplotlib
+regex
+requests
+beautifulsoup4
+tqdm
