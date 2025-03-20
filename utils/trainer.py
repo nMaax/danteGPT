@@ -2,7 +2,7 @@ import torch
 import matplotlib.pyplot as plt
 from utils.DataLoader import get_batch
 
-def train_model(model, train_data, test_data, optimizer, epochs, eval_every=1000, device=None):
+def train_model(model, train_data, test_data, optimizer, epochs, eval_every=1000, batch_size=32, device=None):
   if device is None:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -13,7 +13,7 @@ def train_model(model, train_data, test_data, optimizer, epochs, eval_every=1000
 
   for i in range(epochs):
     # Training
-    xb, yb = get_batch(data=train_data, device=device)
+    xb, yb = get_batch(data=train_data, device=device, batch_size=32)
     loss = model.compute_loss(xb, yb)
     optimizer.zero_grad(set_to_none=True)
     loss.backward()

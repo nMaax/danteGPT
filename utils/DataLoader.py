@@ -1,6 +1,6 @@
 import torch
 
-def get_batch(data, batch_size=1024, block_size=256, device=None):
+def get_batch(data, batch_size=32, block_size=256, device=None):
   # Use CUDA if available, otherwise CPU
   if device is None:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
