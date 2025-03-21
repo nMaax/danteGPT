@@ -13,7 +13,7 @@ def train_model(model, train_data, test_data, optimizer, epochs, eval_every=1000
 
   for i in range(epochs):
     # Training
-    xb, yb = get_batch(data=train_data, device=device, batch_size=32)
+    xb, yb = get_batch(data=train_data, device=device, batch_size=batch_size)
     loss = model.compute_loss(xb, yb)
     optimizer.zero_grad(set_to_none=True)
     loss.backward()
