@@ -4,4 +4,4 @@ regex
 requests
 beautifulsoup4
 tqdm
-yaml
+pyyaml
