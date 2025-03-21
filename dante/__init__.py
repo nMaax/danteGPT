@@ -1,3 +1,3 @@
-from .DanteLM import DanteLM
+from .DanteTransformer import DanteTransformer
 
-__all__ = ["DanteLM"]
+__all__ = ["DanteTransformer"]

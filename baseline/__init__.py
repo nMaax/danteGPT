@@ -1,3 +1,3 @@
-from .naiveLM import naiveLM
+from .DanteBaseline import DanteBaseline
 
-__all__ = ["naiveLM"]
+__all__ = ["DanteBaseline"]
