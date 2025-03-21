@@ -8,6 +8,7 @@ class BasicTokenizer():
 
   def train(self, text, vocab_size, verbose=False):
 
+    assert vocab_size > 256, "vocab_size must be greater than 256"
     num_to_merge = vocab_size - 256
     tokens = list(map(int, text.encode('utf-8')))
     _, self.merges, self.rev_merges = self.continuous_merge(tokens, num_to_merge)
