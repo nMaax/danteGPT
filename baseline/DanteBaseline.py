@@ -27,7 +27,7 @@ class DanteBaseline(nn.Module):
 		return self.net(emb)
 
 	def compute_loss(self, idx, targets):
-		logits = self.forward(idx)
+		logits = self(idx)
 		B, T, C = logits.shape
 		logits = logits.view(B*T, C)
 		targets = targets.view(B*T)
@@ -38,7 +38,7 @@ class DanteBaseline(nn.Module):
 		for _ in range(max_new_tokens):
 			# Constrain to context window
 			tokens_cond = context[:, -self.context_window:]
-			logits = self.forward(tokens_cond)
+			logits = self(tokens_cond)
 			logits = logits[:, -1, :] # B, C
 			probs = F.softmax(logits, dim=-1) # B, C
 			idx_next = torch.multinomial(probs, num_samples=1) # (B, 1)
