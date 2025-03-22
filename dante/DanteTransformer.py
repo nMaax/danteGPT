@@ -42,7 +42,7 @@ class MultiHeadAttention(nn.Module):
         return self.proj(torch.cat([h(x) for h in self.heads], dim=-1))
 
 class FeedForward(nn.Module):
-    def __init__(self, d_model, expansion_factor=4):
+    def __init__(self, d_model, expansion_factor):
         super().__init__()
         # Two-layer feedforward network with GELU activation
         self.net = nn.Sequential(
@@ -55,10 +55,10 @@ class FeedForward(nn.Module):
         return self.net(x)
 
 class TransformerBlock(nn.Module):
-    def __init__(self, d_model, num_heads, dropout_rate):
+    def __init__(self, d_model, num_heads, ff_expansion_factor, dropout_rate):
         super().__init__()
         self.attn = MultiHeadAttention(d_model, num_heads)  # Multi-head attention
-        self.ff = FeedForward(d_model)  # Feedforward network
+        self.ff = FeedForward(d_model=d_model, expansion_factor=ff_expansion_factor)  # Feedforward network
         self.ln1 = nn.LayerNorm(d_model)  # Layer norm before attention
         self.ln2 = nn.LayerNorm(d_model)  # Layer norm before feedforward
         self.dropout1 = nn.Dropout(dropout_rate)  # Dropout after attention
@@ -72,7 +72,7 @@ class TransformerBlock(nn.Module):
         return x
 
 class DanteTransformer(nn.Module):
-    def __init__(self, vocab_size, block_size, d_model, num_heads, num_transformer_blocks, dropout_rate=0.1):
+    def __init__(self, vocab_size, block_size, d_model, num_heads, num_transformer_blocks, ff_expansion_factor, dropout_rate=0.1):
         super().__init__()
         self.d_model = d_model # Embedding space dimension
         self.block_size = block_size  # Maximum sequence length (block size)
@@ -80,7 +80,7 @@ class DanteTransformer(nn.Module):
         self.pos_emb = nn.Embedding(block_size, d_model)  # Positional embeddings
         # Stack of transformer blocks
         self.blocks = nn.Sequential(*[
-            TransformerBlock(d_model, num_heads, dropout_rate) 
+            TransformerBlock(d_model=d_model, num_heads=num_heads, ff_expansion_factor=ff_expansion_factor, dropout_rate=dropout_rate) 
             for _ in range(num_transformer_blocks)
         ])
         self.ln_final = nn.LayerNorm(d_model)  # Final layer norm
