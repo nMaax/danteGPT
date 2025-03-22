@@ -3,15 +3,15 @@ import torch.nn as nn
 from torch.nn import functional as F
 
 class DanteBaseline(nn.Module):
-	def __init__(self, vocab_size, embedding_dim, context_window, expansion_factor=4, dropout_rate=0.1):
+	def __init__(self, vocab_size, embedding_dim, context_window, ff_expansion_factor=4, dropout_rate=0.1):
 		super().__init__()
 		self.context_window = context_window
 		self.tok_emb = nn.Embedding(vocab_size, embedding_dim)
 		self.pos_emb = nn.Embedding(context_window, embedding_dim)
 		self.net = nn.Sequential(
-			nn.Linear(embedding_dim, expansion_factor * embedding_dim),
+			nn.Linear(embedding_dim, ff_expansion_factor * embedding_dim),
 			nn.GELU(),
-			nn.Linear(expansion_factor * embedding_dim, embedding_dim),
+			nn.Linear(ff_expansion_factor * embedding_dim, embedding_dim),
 			nn.Dropout(dropout_rate),
 			nn.Linear(embedding_dim, vocab_size)
 		)
