@@ -8,7 +8,7 @@ This repo provides both the transformer based implementation, both a naive FFNN 
 
 The Transformer is "hand-made" (no use of torch.nn.Transformers), for educational purposes.
 
-Code to scrape the original italian text is provided.
+Code to scrape the original Florentine text of Divina Commedia is provided.
 
 ## Results
 
