@@ -15,60 +15,45 @@ Code to scrape the original Florentine text of Divina Commedia is provided.
 The following is a text I generated using DanteGPT
 
 ```text
-oregnatesero cura;
-onde le tene socche ridurò.
-
-PARADISORIO CANTO 13
-Lo ramir, che l'altre li occhi 'ncondi,
-bia benede i gambedute
-che sì dura tutte le punte,
-ata femmia contezza notte,
-ch'anima de la gran peccata ad essa
-che tanto fatturra altro forca la borne
-le radigranche suolla menando v'integna.
-Ben sono al benedetto e tosta come nacque;
-e le belle fieatiche
-cantavan legni belle stelle simira;
-ne liquani aquella colore e 'l Nanto;
-né ha pungeggiando, e feci
-che li occhi avea di lui e di gradire:
-ne lo 'ntevolta contarmiche.
-Sangue, con in vera vil giusta fuvanda e 'n verbo
-che s'etterne esserebbe contra
-effo Arbrt
+Nel mezzo del cammin di nostra vita,fusa
+ai morì la prima voce li avanti copersi;
+e, per conssa de l'antica presta,
+sì la grazia di là da lei usa s'appa,
+che vapor genti pur aperto dolenti;
+e come l'ombra intorno la cerchia rocchi,
+quivi la dinte, sotto l'agrime
+tronallmente rile, a li occhi al dole.
+Figlionanti raggio de la stella,
+e compagina già mente, e mai non discerno
+origono a di sì migliuoi serrabil fida,
+fin che nome io d'ombra l'amia tosso,
+non potéppi di ch'a la rabbia toglie racca:
+<<Ecco di t'intende dove tue i petti
+là dove quali di giù non vero intra,
+non secondo suo, o d' io l'ago Lacerbe>>.
+E io: <<Leva ciascun che luce ho Brante,
+cantavan chiaro visi rimavagna,
+zioso de l'altroli delttulla
 ```
 
 Which can be compared with an actual Canto of the Divine Commedy, e.g.
 
 ```text
-PARADISO CANTO 1
-La gloria di colui che tutto move
-per l'universo penetra, e risplende
-in una parte più e meno altrove.
-Nel ciel che più de la sua luce prende
-fu' io, e vidi cose che ridire
-né sa né può chi di là sù discende;
-perché appressando sé al suo disire,
-nostro intelletto si profonda tanto,
-che dietro la memoria non può ire.
-Veramente quant' io del regno santo
-ne la mia mente potei far tesoro,
-sarà ora materia del mio canto.
-O buono Appollo, a l'ultimo lavoro
-fammi del tuo valor sì fatto vaso,
-come dimandi a dar l'amato alloro.
-Infino a qui l'un giogo di Parnaso
-assai mi fu; ma or con amendue
-m'è uopo intrar ne l'aringo rimaso.
-Entra nel petto mio, e spira tue
-sì come quando Marsia traesti
-de la vagina de le membra sue.
-O divina virtù, se mi ti presti
-tanto che l'ombra del beato regno
-segnata nel mio capo io manifesti,
-vedra'mi al piè del tuo diletto legno
-venire, e coronarmi de le foglie
-che la materia e tu mi farai degno.
+INFERNO CANTO 1
+Nel mezzo del cammin di nostra vita
+mi ritrovai per una selva oscura
+ché la diritta via era smarrita.
+Ahi quanto a dir qual era è cosa dura
+esta selva selvaggia e aspra e forte
+che nel pensier rinova la paura!
+Tant' è amara che poco è più morte;
+ma per trattar del ben ch'i' vi trovai,
+dirò de l'altre cose ch'i' v'ho scorte.
+Io non so ben ridir com' i' v'intrai,
+tant' era pien di sonno a quel punto
+che la verace via abbandonai.
+Ma poi ch'i' fui al piè d'un colle giunto,
+là dove terminava quel
 ```
 
 ## Installation

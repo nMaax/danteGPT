@@ -1,12 +1,10 @@
-model:
-  tokenizer_training_size: 0.5
-  train_test_ratio: 0.8
-  vocab_size: 1000
-  block_size: 256 # T (context window)
-  batch_size: 32 # B (data points per batch)
-  d_model: 128 # C (embeddings dimension)
-  num_heads: 4
-  num_transformer_blocks: 8
-  ff_expansion_factor: 4
-  dropout_rate: 0.1
-  device: "cuda"
+tokenizer_training_size: 1.0
+vocab_size: 1024
+block_size: 256 # T (context window)
+batch_size: 64 # B (data points per batch)
+d_model: 128 # C (embeddings dimension)
+num_heads: 8
+num_transformer_blocks: 16
+ff_expansion_factor: 4
+dropout_rate: 0.0
+device: "cuda"
